@@ -9,7 +9,7 @@ app = Flask(__name__, template_folder='templates')
 app.debug = True
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.secret_key = 'hui'
+app.secret_key = os.environ.get('SECRET_KEY')
 db.init_app(app)
 migrate = Migrate(app, db)
 app.cli.add_command(create)
