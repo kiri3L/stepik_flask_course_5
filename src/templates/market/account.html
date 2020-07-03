@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block stile %}
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+{% endblock %}
+
+{% block content %}
+  <body>
+  {% include 'header.html' %}
+  <main class="container">
+    <section class="row">
+      <div class="col-12 col-lg-8">
+        <h1 class="h3 my-5">Личный кабинет. Заказы</h1>
+        <div class="card">
+          <ul class="list-group list-group-flush">
+            {% for order in orders %}
+            <li class="list-group-item">
+              <div class="row">
+                <div class="col-7 col-lg-9">
+                  <span class="h5 font-weight-bold">{{ order.date.strftime('%Y-%m-%d %H.%M') }}</span>
+                  <span class="h5">{{ order.total_price }}</span>
+                </div>
+              </div>
+            </li>
+            <div class="card-body">
+              <div class="row">
+                {% for pos in order.positions %}
+                  <p class="col-4 text-muted">{{ pos.meal.title }}</p>
+                  <p class="col-2 text-muted">{{ pos.count_dish }}</p>
+                  <p class="col-6 text-muted">{{ pos.meal.price }}</p>
+                {% endfor %}
+              </div>
+            </div>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+    </section>
+  </main>
+  {% include 'footer.html' %}
+  </body>
+{% endblock %}

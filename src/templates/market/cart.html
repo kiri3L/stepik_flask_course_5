@@ -1,0 +1,96 @@
+{% extends 'base.html' %}
+
+{% block stile %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+{% endblock %}
+
+
+{% block content %}
+<body>
+  {% include 'header.html' %}
+  <main class="container">
+    <h1 class="h3 my-4">Корзина</h1>
+
+    {% if pos_deleted %}
+      <div class="alert alert-warning" role="alert">Блюдо удалено из корзины</div>
+    {% endif %}
+    {% if is_empty %}
+      <div class="alert alert-warning" role="alert">Корзина пуста</div>
+    {% endif %}
+    {% if not is_logged%}
+      <div class="alert alert-warning" role="alert">Чтобы сделать заказ – <a href="/login/">войдите</a> или <a href="/registration/">зарегистрируйтесь</a></div>
+    {% else %}
+    {% if not is_empty %}
+    <div class="row">
+      <div class="col-4">
+        <form action="/cart/" method="POST">
+          {{ user_form.hidden_tag() }}
+          <h4 class="">Ваши данные</h4>
+          <div class=" md-4 order-md-1">
+            <div class="mt-3 mb-3">
+              {{ user_form.name.label }}
+              {% for error in user_form.name.errors %}
+                {{ error }}
+              {% endfor %}
+              {{ user_form.name(class_="font-weight-bold form-control") }}
+            </div>
+          </div>
+          <div class=" md-4 order-md-1">
+            <div class="mt-3 mb-3">
+              {{ user_form.email.label }}
+              {% for error in user_form.email.errors %}
+                {{ error }}
+              {% endfor %}
+              {{ user_form.email(class_="font-weight-bold form-control") }}
+            </div>
+          </div>
+          <div class=" md-4 order-md-1">
+            <div class="mt-3 mb-3">
+              {{ user_form.phone.label }}
+              {% for error in user_form.phone.errors %}
+                {{ error }}
+              {% endfor %}
+              {{ user_form.phone(class_="font-weight-bold form-control") }}
+            </div>
+          </div>
+          <div class=" md-4 order-md-1">
+            <div class="mt-3 mb-3">
+              {{ user_form.address.label }}
+              {% for error in user_form.address.errors %}
+                {{ error }}
+              {% endfor %}
+              {{ user_form.address(class_="font-weight-bold form-control") }}
+            </div>
+          </div>
+            <button type="submit" class=" mt-3 mb-5 btn btn-danger">Оформить заказ</button>
+          </form>
+      </div>
+       <div class="col-1"></div>
+       <div class="col-7">
+      <h4 class="mb-3 col-7 mb-5">{{ dish_count }} блюда в корзине</h4>
+      <table class="table">
+        <tbody>
+        {% for position in order %}
+          <tr>
+            <th scope="row">{{position.title}}<div class="col-1"></div></th>
+            <td></td>
+            <td>{{position.count_dish}}</td>
+            <td>{{position.price}}</td>
+            <td><a class="text-danger" href="/remove_from_cart/{{position.id}}/">Удалить</a></td>
+          </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+      <hr>
+      <p class="display-4 my-2 ">{{ order_price }} руб</p>
+    </div>
+    </div>
+    {% endif %}
+    {% endif %}
+<!--      -->
+
+  </main>
+  {% include 'footer.html' %}
+</body>
+{% endblock %}
+
