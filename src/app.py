@@ -18,3 +18,5 @@ from src.admin import admin
 admin.init_app(app)
 from src.views import *
 
+if __name__ == '__main__':
+    app.run()
