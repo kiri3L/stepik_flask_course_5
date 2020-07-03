@@ -34,12 +34,12 @@ def create_admin(email, password):
 
 @create.command('meals')
 def init_db():
-    with open('../delivery_categories.csv', 'r') as f:
+    with open('delivery_categories.csv', 'r') as f:
         reader = csv.DictReader(f)
         for row in reader:
             db.session.add(Category(**row))
         db.session.commit()
-    with open('../delivery_items.csv', 'r') as f:
+    with open('delivery_items.csv', 'r') as f:
         reader = csv.DictReader(f)
         for row in reader:
             db.session.add(Meal(**row))
